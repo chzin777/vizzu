@@ -146,6 +146,14 @@ const InfiniteSpiral = ({
     const render = (time: number) => {
       const delta = Math.min((time - previousTime) / 1000, 0.05);
       previousTime = time;
+
+      /* Fora da tela o laço não escreve nada. Ele continuava mexendo em
+         sete cartões a cada quadro enquanto a pessoa lia o resto da
+         página — trabalho de layout puro, invisível por definição. */
+      if (!visibleRef.current && Math.abs(autoSpeedRef.current) < 0.001) {
+        frameId = requestAnimationFrame(render);
+        return;
+      }
       const autoEnabled = animationMode === 'auto' || animationMode === 'all';
       const motionPaused = draggingRef.current || (pauseOnHover && hoveredRef.current);
       const directionMultiplier = direction === 'down' ? -1 : 1;

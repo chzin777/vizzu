@@ -167,7 +167,19 @@ export default function Manifesto() {
         const VOLTA = 25;
         let deslocamento = 0;
         let empurrao = 0;
+        /* a faixa só anda quando a seção está na tela: correr escondida
+           é repintura por nada */
+        let visivel = true;
+        const olho = new IntersectionObserver(
+          ([e]) => {
+            visivel = e.isIntersecting;
+          },
+          { rootMargin: "120px" },
+        );
+        if (raiz.current) olho.observe(raiz.current);
+
         const passo = (_t: number, delta: number) => {
+          if (!visivel) return;
           empurrao *= 0.94;
           deslocamento = (deslocamento + (VELOCIDADE + empurrao) * (delta / 1000)) % VOLTA;
           trilhos.forEach((t, i) => {
@@ -208,6 +220,7 @@ export default function Manifesto() {
           moldura.removeEventListener("pointermove", mover);
           moldura.removeEventListener("pointerleave", sair);
           gsap.ticker.remove(passo);
+          olho.disconnect();
           window.removeEventListener("scroll", naRolagem);
         };
       }

@@ -212,7 +212,16 @@ export default function Silk({
   }, [speed, scale, noiseIntensity, color, rotation, lightMode, uniforms]);
 
   return (
-    <Canvas dpr={[1, 2]} frameloop="always">
+    /* dpr limitado a 1,5: o tecido é uma mancha de gradiente em
+       movimento lento, e nada nele melhora com quatro vezes mais pixels
+       — em tela retina isso era o dobro do trabalho de GPU por quadro,
+       de graça. `powerPreference` evita a placa dedicada num notebook,
+       que é bateria por nada. */
+    <Canvas
+      dpr={[1, 1.5]}
+      frameloop="always"
+      gl={{ antialias: false, powerPreference: "low-power" }}
+    >
       <PlanoSilk ref={mesh} uniforms={uniforms} />
     </Canvas>
   );

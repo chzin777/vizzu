@@ -187,7 +187,7 @@ export const ESPIRAL_CAPA: {
   { arq: "/trabalho/fluid-no-label/07.png", alt: "Fluid no label", slug: "fluid-no-label" },
   { arq: "/trabalho/citrine/05.png", alt: "Citrine", slug: "citrine" },
 ].map((p) => ({
-  src: `/_next/image?url=${encodeURIComponent(p.arq)}&w=1080&q=88`,
+  src: `/_next/image?url=${encodeURIComponent(p.arq)}&w=750&q=88`,
   alt: p.alt,
   href: `/trabalho/${p.slug}`,
 }));
