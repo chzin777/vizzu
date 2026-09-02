@@ -1317,6 +1317,9 @@ ol {
 }
 
 .rodape-base {
+  /* o botão flutuante de conversa mora no canto direito de baixo: a
+     linha de base guarda espaço para ele não cobrir o texto */
+  padding-right: clamp(0px, 18vw, 220px);
   display: flex;
   flex-wrap: wrap;
   align-items: center;

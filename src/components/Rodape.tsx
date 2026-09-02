@@ -82,9 +82,6 @@ export default function Rodape() {
 
       <div className="rodape-base">
         <p className="rodape-nota mono">
-          © {ano} {MARCA.nome} · {MARCA.pessoa}
-        </p>
-        <p className="rodape-nota mono">
           Feito pela{" "}
           <a
             className="rodape-credito"
@@ -94,6 +91,9 @@ export default function Rodape() {
           >
             Comply
           </a>
+        </p>
+        <p className="rodape-nota mono">
+          © {ano} {MARCA.nome} · {MARCA.pessoa}
         </p>
       </div>
     </footer>
