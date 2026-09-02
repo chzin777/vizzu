@@ -9,7 +9,7 @@ import {
   Syne,
 } from "next/font/google";
 import "./globals.css";
-import { MARCA } from "../dados";
+import { MARCA, SITE, PROJETOS } from "../dados";
 
 /* ============================================================
    TIPOGRAFIA
@@ -90,14 +90,50 @@ const RESUMO =
   "Edição e captação de vídeo, identidade visual e posts para redes sociais. Design não é só sobre ser bonito, é sobre ser impossível de ignorar.";
 
 export const metadata: Metadata = {
-  title: TITULO,
+  /* Sem `metadataBase` o Next resolve as imagens de compartilhamento em
+     localhost, e o link colado no WhatsApp sai sem capa. */
+  metadataBase: new URL(SITE),
+  title: {
+    default: TITULO,
+    /* nas páginas de projeto o título vira "Citrine · Vizzu" sozinho */
+    template: `%s · ${MARCA.nome}`,
+  },
   description: RESUMO,
+  applicationName: MARCA.nome,
+  authors: [{ name: MARCA.pessoa, url: MARCA.instagram }],
+  creator: MARCA.pessoa,
+  publisher: MARCA.nome,
+  keywords: [
+    "editor de vídeo Goiânia",
+    "identidade visual",
+    "social media",
+    "design de marca",
+    "motion e edição",
+    "portfólio de design",
+    MARCA.pessoa,
+    MARCA.nome,
+  ],
+  category: "design",
+  alternates: { canonical: "/" },
   openGraph: {
     title: TITULO,
     description: RESUMO,
     type: "website",
     locale: "pt_BR",
+    url: SITE,
+    siteName: MARCA.nome,
   },
+  twitter: {
+    card: "summary_large_image",
+    title: TITULO,
+    description: RESUMO,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
+  formatDetection: { telephone: false },
 };
 
 export const viewport: Viewport = {
@@ -112,6 +148,59 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="pt-BR" className={`js ${FONTES}`}>
       <body>
+        {/* Dados estruturados: quem é, o que faz e quais são os trabalhos.
+            É o que faz o resultado de busca mostrar a pessoa e não só o
+            título da página — e é também o que um LLM lê primeiro. */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "WebSite",
+                  "@id": `${SITE}/#site`,
+                  url: SITE,
+                  name: MARCA.nome,
+                  inLanguage: "pt-BR",
+                  description: RESUMO,
+                },
+                {
+                  "@type": "Person",
+                  "@id": `${SITE}/#pessoa`,
+                  name: MARCA.pessoa,
+                  jobTitle: "Editor de vídeo e designer de identidade visual",
+                  url: SITE,
+                  sameAs: [MARCA.instagram],
+                  address: {
+                    "@type": "PostalAddress",
+                    addressLocality: "Goiânia",
+                    addressRegion: "GO",
+                    addressCountry: "BR",
+                  },
+                  makesOffer: [
+                    "Edição e captação de vídeo",
+                    "Identidade visual",
+                    "Posts para redes sociais",
+                  ].map((nome) => ({
+                    "@type": "Offer",
+                    itemOffered: { "@type": "Service", name: nome },
+                  })),
+                },
+                ...PROJETOS.map((p) => ({
+                  "@type": "CreativeWork",
+                  "@id": `${SITE}/trabalho/${p.slug}#projeto`,
+                  name: p.titulo,
+                  url: `${SITE}/trabalho/${p.slug}`,
+                  genre: p.tipo,
+                  abstract: p.resumo,
+                  creator: { "@id": `${SITE}/#pessoa` },
+                })),
+              ],
+            }),
+          }}
+        />
+
         <noscript>
           <style>{`.sobe{opacity:1!important;transform:none!important}`}</style>
         </noscript>

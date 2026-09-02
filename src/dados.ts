@@ -6,6 +6,13 @@
    src/portfolio.json, que o script de download escreve.
    ============================================================ */
 
+/* O endereço público. Sai do ambiente quando existir domínio próprio;
+   sem isso, o da Vercel. Metadados, sitemap e robots leem daqui — sem um
+   endereço absoluto, o Next resolve as imagens de compartilhamento em
+   localhost e o link no WhatsApp aparece sem capa. */
+export const SITE =
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://vizzu-xi.vercel.app";
+
 export const MARCA = {
   nome: "Vizzu",
   pessoa: "Noah Lima Queiroz",

@@ -51,13 +51,10 @@ export default function Contato() {
             >
               Chamar no WhatsApp
             </a>
-            <a
-              className="botao botao-vazado"
-              href={MARCA.portfolio}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Ver o portfólio antes
+            {/* o trabalho está aqui mesmo: mandar para o portfólio antigo
+                era tirar a pessoa do site na hora de decidir */}
+            <a className="botao botao-vazado" href="#trabalho">
+              Ver o trabalho antes
             </a>
           </div>
         </div>

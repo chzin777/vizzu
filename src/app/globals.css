@@ -2125,6 +2125,12 @@ html.travado {
   transition: transform 0.7s var(--ease);
 }
 
+/* o pai precisa de altura própria quando a imagem é `fill` */
+.pj-fundo,
+.pj-proximo-fundo {
+  overflow: hidden;
+}
+
 .pj-peca:hover .pj-quadro img {
   transform: scale(1.02);
 }
@@ -3140,5 +3146,84 @@ html.travado {
   .nav-hamburguer,
   .nav-gaveta {
     display: none !important;
+  }
+}
+
+/* ---------- 404 ----------
+
+   Mesma gramática das outras seções: rótulo de timecode, manchete de
+   cartaz e a lista de projetos como saída. O número é grande porque é a
+   única coisa que a pessoa precisa entender de relance. */
+
+.erro {
+  display: grid;
+  justify-items: start;
+  gap: 18px;
+  max-width: 1500px;
+  margin: 0 auto;
+  min-height: 82svh;
+  align-content: center;
+  padding: calc(var(--topo) + clamp(60px, 12vh, 120px)) var(--pad)
+    clamp(50px, 9vh, 100px);
+}
+
+.erro-codigo {
+  font-size: clamp(5rem, 22vw, 15rem);
+  line-height: 0.82;
+  color: var(--laranja-vivo);
+}
+
+.erro-frase {
+  font-size: clamp(1.6rem, 5vw, 3.4rem);
+  max-width: 18ch;
+}
+
+.erro-texto {
+  max-width: 52ch;
+  color: var(--tinta-fraca);
+}
+
+.erro-acoes {
+  margin-top: 10px;
+}
+
+.erro-lista {
+  display: grid;
+  width: 100%;
+  margin-top: clamp(28px, 5vh, 54px);
+  border-top: 1px solid var(--linha);
+}
+
+.erro-lista a {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px 20px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--linha);
+  color: var(--tinta-fraca);
+  transition: color 0.3s var(--ease), padding 0.4s var(--ease);
+}
+
+.erro-lista a:hover {
+  color: var(--tinta);
+  padding-inline: 10px;
+}
+
+.erro-lista-nome {
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  color: var(--tinta);
+}
+
+@media (max-width: 899px) {
+  .erro-acoes {
+    display: grid;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .erro-acoes .botao {
+    justify-content: center;
   }
 }

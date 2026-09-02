@@ -24,10 +24,12 @@ export async function generateMetadata({
 
   const titulo = `${projeto.titulo} · ${MARCA.nome}`;
   return {
-    title: titulo,
+    title: projeto.titulo,
     description: projeto.resumo,
+    alternates: { canonical: `/trabalho/${slug}` },
     openGraph: {
       title: titulo,
+      url: `/trabalho/${slug}`,
       description: projeto.resumo,
       type: "article",
       locale: "pt_BR",

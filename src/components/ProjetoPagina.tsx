@@ -27,6 +27,7 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useGSAP, revelar, gsap, semMovimento, EASE } from "../lib/anim";
 import type { Peca, Projeto } from "../dados";
 import { MARCA } from "../dados";
@@ -190,8 +191,14 @@ export default function ProjetoPagina({
         <header className="pj-capa">
           <div className="pj-fundo" aria-hidden="true">
             {capa && (
-              /* eslint-disable-next-line @next/next/no-img-element */
-              <img src={capa} alt="" decoding="async" />
+              <Image
+                src={capa}
+                alt=""
+                fill
+                priority
+                sizes="100vw"
+                style={{ objectFit: "cover" }}
+              />
             )}
           </div>
           <span className="pj-veu" aria-hidden="true" />
@@ -276,12 +283,24 @@ export default function ProjetoPagina({
                     rotulo={`${projeto.titulo}, peça ${n + 1}`}
                   />
                 ) : (
-                  /* eslint-disable-next-line @next/next/no-img-element */
-                  <img
+                  /* O otimizador entrega AVIF/WebP no tamanho da coluna.
+                     Servir os originais era o que fazia a página baixar
+                     dezenas de megabytes e engasgar na rolagem. */
+                  <Image
                     src={p.src}
                     alt={`${projeto.titulo}, peça ${n + 1}`}
+                    width={p.largura}
+                    height={p.altura}
+                    priority={n < 2}
                     loading={n < 2 ? "eager" : "lazy"}
-                    decoding="async"
+                    sizes={
+                      faixa(p) === "pj-larga"
+                        ? "(max-width: 700px) 100vw, 90vw"
+                        : faixa(p) === "pj-alta"
+                          ? "(max-width: 700px) 100vw, 33vw"
+                          : "(max-width: 700px) 100vw, 50vw"
+                    }
+                    style={{ width: "100%", height: "auto" }}
                   />
                 )}
               </div>
@@ -314,8 +333,14 @@ export default function ProjetoPagina({
         >
           <span className="pj-proximo-fundo" aria-hidden="true">
             {capaProximo && (
-              /* eslint-disable-next-line @next/next/no-img-element */
-              <img src={capaProximo} alt="" loading="lazy" decoding="async" />
+              <Image
+                src={capaProximo}
+                alt=""
+                fill
+                loading="lazy"
+                sizes="100vw"
+                style={{ objectFit: "cover" }}
+              />
             )}
           </span>
 
