@@ -1,0 +1,389 @@
+[
+  {
+    "slug": "motos-e-motos",
+    "titulo": "Motos & Motos",
+    "pecas": [
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/motos-e-motos/01.jpg",
+        "largura": 1920,
+        "altura": 1080
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/motos-e-motos/02.png",
+        "largura": 766,
+        "altura": 325
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/motos-e-motos/03.png",
+        "largura": 500,
+        "altura": 500
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/motos-e-motos/04.jpg",
+        "largura": 1080,
+        "altura": 1350
+      },
+      {
+        "tipo": "video",
+        "src": "/trabalho/motos-e-motos/05.mp4",
+        "capa": "/trabalho/motos-e-motos/05-capa.jpg",
+        "largura": 360,
+        "altura": 640
+      },
+      {
+        "tipo": "video",
+        "src": "/trabalho/motos-e-motos/06.mp4",
+        "capa": "/trabalho/motos-e-motos/06-capa.jpg",
+        "largura": 360,
+        "altura": 640
+      },
+      {
+        "tipo": "video",
+        "src": "/trabalho/motos-e-motos/07.mp4",
+        "capa": "/trabalho/motos-e-motos/07-capa.jpg",
+        "largura": 360,
+        "altura": 640
+      },
+      {
+        "tipo": "video",
+        "src": "/trabalho/motos-e-motos/08.mp4",
+        "capa": "/trabalho/motos-e-motos/08-capa.jpg",
+        "largura": 360,
+        "altura": 640
+      },
+      {
+        "tipo": "video",
+        "src": "/trabalho/motos-e-motos/09.mp4",
+        "capa": "/trabalho/motos-e-motos/09-capa.jpg",
+        "largura": 360,
+        "altura": 640
+      },
+      {
+        "tipo": "video",
+        "src": "/trabalho/motos-e-motos/10.mp4",
+        "capa": "/trabalho/motos-e-motos/10-capa.jpg",
+        "largura": 360,
+        "altura": 640
+      },
+      {
+        "tipo": "video",
+        "src": "/trabalho/motos-e-motos/11.mp4",
+        "capa": "/trabalho/motos-e-motos/11-capa.jpg",
+        "largura": 360,
+        "altura": 640
+      },
+      {
+        "tipo": "video",
+        "src": "/trabalho/motos-e-motos/12.mp4",
+        "capa": "/trabalho/motos-e-motos/12-capa.jpg",
+        "largura": 360,
+        "altura": 640
+      },
+      {
+        "tipo": "video",
+        "src": "/trabalho/motos-e-motos/13.mp4",
+        "capa": "/trabalho/motos-e-motos/13-capa.jpg",
+        "largura": 360,
+        "altura": 640
+      },
+      {
+        "tipo": "video",
+        "src": "/trabalho/motos-e-motos/14.mp4",
+        "capa": "/trabalho/motos-e-motos/14-capa.jpg",
+        "largura": 720,
+        "altura": 1280
+      },
+      {
+        "tipo": "video",
+        "src": "/trabalho/motos-e-motos/15.mp4",
+        "capa": "/trabalho/motos-e-motos/15-capa.jpg",
+        "largura": 360,
+        "altura": 640
+      }
+    ]
+  },
+  {
+    "slug": "citrine",
+    "titulo": "Citrine",
+    "pecas": [
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/citrine/01.jpg",
+        "largura": 1920,
+        "altura": 1080
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/citrine/02.jpg",
+        "largura": 1580,
+        "altura": 600
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/citrine/03.png",
+        "largura": 1920,
+        "altura": 1080
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/citrine/04.jpg",
+        "largura": 1580,
+        "altura": 600
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/citrine/05.png",
+        "largura": 1920,
+        "altura": 1080
+      }
+    ]
+  },
+  {
+    "slug": "vega-construtora",
+    "titulo": "Vega Construtora",
+    "pecas": [
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/vega-construtora/01.jpg",
+        "largura": 1920,
+        "altura": 1080
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/vega-construtora/02.jpg",
+        "largura": 1080,
+        "altura": 1350
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/vega-construtora/03.jpg",
+        "largura": 1080,
+        "altura": 1350
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/vega-construtora/04.png",
+        "largura": 1494,
+        "altura": 1999
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/vega-construtora/05.jpg",
+        "largura": 1080,
+        "altura": 1080
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/vega-construtora/06.png",
+        "largura": 1900,
+        "altura": 643
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/vega-construtora/07.png",
+        "largura": 1900,
+        "altura": 643
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/vega-construtora/08.png",
+        "largura": 1900,
+        "altura": 643
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/vega-construtora/09.jpeg",
+        "largura": 1600,
+        "altura": 541
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/vega-construtora/10.jpg",
+        "largura": 1080,
+        "altura": 1080
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/vega-construtora/11.jpg",
+        "largura": 1080,
+        "altura": 1080
+      },
+      {
+        "tipo": "video",
+        "src": "/trabalho/vega-construtora/12.mp4",
+        "capa": "/trabalho/vega-construtora/12-capa.jpg",
+        "largura": 720,
+        "altura": 1280
+      },
+      {
+        "tipo": "video",
+        "src": "/trabalho/vega-construtora/13.mp4",
+        "capa": "/trabalho/vega-construtora/13-capa.jpg",
+        "largura": 720,
+        "altura": 1280
+      },
+      {
+        "tipo": "video",
+        "src": "/trabalho/vega-construtora/14.mp4",
+        "capa": "/trabalho/vega-construtora/14-capa.jpg",
+        "largura": 1080,
+        "altura": 1920
+      },
+      {
+        "tipo": "video",
+        "src": "/trabalho/vega-construtora/15.mp4",
+        "capa": "/trabalho/vega-construtora/15-capa.jpg",
+        "largura": 720,
+        "altura": 1280
+      }
+    ]
+  },
+  {
+    "slug": "corpo-e-cidade",
+    "titulo": "Corpo & Cidade - intervenção artística",
+    "pecas": [
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/corpo-e-cidade/01.jpg",
+        "largura": 1920,
+        "altura": 1080
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/corpo-e-cidade/02.jpg",
+        "largura": 1587,
+        "altura": 2245
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/corpo-e-cidade/03.png",
+        "largura": 3240,
+        "altura": 2880
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/corpo-e-cidade/04.png",
+        "largura": 827,
+        "altura": 827
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/corpo-e-cidade/05.jpg",
+        "largura": 1414,
+        "altura": 2000
+      }
+    ]
+  },
+  {
+    "slug": "fluid-no-label",
+    "titulo": "Identidade Visual Fluid - No Label",
+    "pecas": [
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/fluid-no-label/01.png",
+        "largura": 1920,
+        "altura": 1080
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/fluid-no-label/02.png",
+        "largura": 1920,
+        "altura": 1080
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/fluid-no-label/03.png",
+        "largura": 1920,
+        "altura": 1080
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/fluid-no-label/04.png",
+        "largura": 1920,
+        "altura": 1080
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/fluid-no-label/05.png",
+        "largura": 1920,
+        "altura": 1080
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/fluid-no-label/06.png",
+        "largura": 1920,
+        "altura": 1080
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/fluid-no-label/07.png",
+        "largura": 1920,
+        "altura": 1080
+      }
+    ]
+  },
+  {
+    "slug": "tatuzinho",
+    "titulo": "Identidade Visual Tatuzinho Automóveis",
+    "pecas": [
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/tatuzinho/01.png",
+        "largura": 1920,
+        "altura": 1080
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/tatuzinho/02.png",
+        "largura": 1920,
+        "altura": 1080
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/tatuzinho/03.png",
+        "largura": 1920,
+        "altura": 1080
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/tatuzinho/04.png",
+        "largura": 1920,
+        "altura": 1080
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/tatuzinho/05.png",
+        "largura": 1920,
+        "altura": 1080
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/tatuzinho/06.png",
+        "largura": 1920,
+        "altura": 1080
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/tatuzinho/07.png",
+        "largura": 1920,
+        "altura": 1080
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/tatuzinho/08.png",
+        "largura": 640,
+        "altura": 360
+      },
+      {
+        "tipo": "imagem",
+        "src": "/trabalho/tatuzinho/09.png",
+        "largura": 1080,
+        "altura": 1350
+      }
+    ]
+  }
+]

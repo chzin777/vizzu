@@ -1,26 +1,3144 @@
+/* ============================================================
+   VIZZU — Noah Lima Queiroz · vídeo e identidade visual
+
+   Três cores só: preto, branco, laranja da marca (#f57c1f). O laranja é
+   CORTE e superfície de destaque, nunca fundo de texto longo — e onde
+   ele vira fundo, o tipo por cima é PRETO. Laranja com branco por cima
+   dá contraste de 2,6:1, que reprova em qualquer leitura; preto sobre
+   laranja passa de 6:1 e ainda é a combinação da própria logo.
+
+   A logo é um V com um OLHO dentro. O olho é o motivo que atravessa a
+   página: o cursor de foco, o marcador de seção, o desenho do rodapé.
+   Ele carrega a frase do herói — ser impossível de ignorar é ser visto.
+
+   A página alterna fundo preto e fundo branco de propósito. Site de
+   editor de vídeo com fundo preto do início ao fim vira o mesmo dark
+   de sempre; a virada para o branco é o que faz parecer cartaz
+   impresso, que é a metade "identidade visual" do trabalho dele.
+
+   A assinatura é a ILHA DE EDIÇÃO: barra de progresso com playhead no
+   topo, timecode correndo, e cada seção rotulada como clipe. A ordem
+   das seções é uma sequência de verdade, então numerar por timecode
+   diz algo — não é enfeite.
+   ============================================================ */
+
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
+
+  --preto: #0a0a0a;
+  --carvao: #131313;
+  --fumaca: #1c1c1c;
+  --branco: #ffffff;
+  --osso: #ebe9e6;
+  --laranja: #f57c1f;
+  --laranja-vivo: #ff9433;
+  /* o mesmo laranja escurecido, para TIPO sobre fundo branco. O da
+     marca sobre branco dá 2,5:1 e some; este passa de 4,5:1 e continua
+     lendo como a cor da marca */
+  --laranja-tipo: #b3540a;
+
+  /* A manchete é um TOKEN, não uma fonte fixa: as páginas de projeto
+     trocam estes três valores e a página inteira muda de voz. */
+  --font-display: var(--f-fredoka);
+  --font-sans: var(--f-fredoka);
+  --font-serif: var(--f-fredoka);
+  /* rótulos e timecodes também: uma fonte só na página inteira. O que
+     separa rótulo de texto passa a ser o corpo, o espacejamento e a
+     caixa alta, não uma segunda família. */
+  --font-mono: var(--f-fredoka);
+  --display-peso: 600;
+  --display-largura: 100%;
+  /* o que lê por cima do acento; vira branco nos temas de acento escuro */
+  --sobre-acento: #0a0a0a;
+
+  --tinta: var(--branco);
+  --tinta-fraca: rgba(255, 255, 255, 0.66);
+  --tinta-tenue: rgba(255, 255, 255, 0.38);
+  --linha: rgba(255, 255, 255, 0.14);
+
+  /* o par invertido: usado pelas seções de fundo claro, para que os
+     mesmos componentes internos funcionem nos dois lados sem duplicar
+     regra */
+  --tinta-esc: #0a0a0a;
+  --tinta-esc-fraca: rgba(10, 10, 10, 0.68);
+  --tinta-esc-tenue: rgba(10, 10, 10, 0.42);
+  --linha-esc: rgba(10, 10, 10, 0.16);
+
+  /* Cantos. A página inteira era de canto vivo e ficava dura demais;
+     agora o raio é um token só, com três degraus: peça pequena, caixa
+     grande e botão (cápsula). */
+  --r: 10px;
+  --r-caixa: 16px;
+  --r-pill: 999px;
+
+  --pad: clamp(20px, 5vw, 88px);
+  --topo: 58px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-seco: cubic-bezier(0.85, 0, 0.15, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: auto;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--preto);
+  color: var(--tinta);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--laranja-vivo);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--laranja);
+  color: var(--preto);
+}
+
+/* ---------- primitivas de tipo ----------
+
+   O display é caixa alta condensada e MUITO grande: é a voz de cartaz.
+   O `letter-spacing` levemente negativo junta as hastes e faz o bloco
+   parecer maciço, que é o efeito procurado — palavra como parede. */
+
+.display {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-weight: var(--display-peso);
+  font-stretch: var(--display-largura);
+  text-transform: uppercase;
+  line-height: 0.88;
+  letter-spacing: -0.012em;
+}
+
+/* A única quebra de regra da página: uma palavra por manchete sai do
+   condensado e vira itálico serifado. O contraste entre a haste grossa
+   e a fina é o que dá personalidade; espalhado, viraria enfeite. */
+/* A palavra de destaque: mesma fonte, em caixa alta como o resto da
+   manchete. Em minúscula ela quebrava a linha ao meio; o que a destaca
+   é a cor, não o corpo da letra. */
+.serifa {
+  font-family: var(--font-serif), ui-rounded, system-ui, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.mono {
+  font-family: var(--font-mono), ui-rounded, system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+.laranja {
+  color: var(--laranja-vivo);
+}
+
+/* rótulo de clipe: o eyebrow de toda seção, no formato de timecode */
+.clipe {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--tinta-tenue);
+}
+
+.clipe::before {
+  border-radius: 2px;
+  content: "";
+  width: 7px;
+  height: 7px;
+  background: var(--laranja-vivo);
+  flex: none;
+}
+
+.claro .clipe {
+  color: var(--tinta-esc-tenue);
+}
+
+/* máscara de linha: o texto sobe de dentro de uma faixa recortada.
+   `overflow: hidden` num span de bloco, com o conteúdo deslocado — é o
+   reveal de manchete inteiro, sem depender de plugin pago. */
+/* A folga em cima existe por causa do português: com `overflow: hidden`
+   colado na caixa da linha, o til de NÃO e o acento de É ficam do lado
+   de fora e são cortados. A margem negativa devolve o espaço para que a
+   entrelinha continue a mesma. */
+.mascara {
+  display: block;
+  overflow: hidden;
+  padding: 0.16em 0 0.06em;
+  margin-top: -0.16em;
+}
+
+.mascara > span {
+  display: block;
+  will-change: transform;
+}
+
+/* ---------- grão e varredura ----------
+
+   Uma textura fina por cima de tudo. Sem ela o preto chapado do CSS
+   fica plástico; com ela ganha a sujeira de vídeo, que é o assunto. */
+
+.grao {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.varredura {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.5;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.028) 0px,
+    rgba(255, 255, 255, 0.028) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* ---------- playhead: a barra da ilha de edição ----------
+
+   Fica no topo, acima da navegação. A parte preenchida é laranja e a
+   cabeça é um traço fino que anda com a rolagem. O timecode ao lado
+   conta em 24 quadros por segundo. É decorativo no sentido literal —
+   mas é a mesma informação que uma barra de progresso daria, dita no
+   vocabulário de quem monta vídeo. */
+
+.playhead {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 80;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+}
+
+.playhead-fita {
+  height: 100%;
+  width: 0;
+  background: var(--laranja-vivo);
+  transform-origin: left center;
+}
+
+.playhead-cabeca {
+  position: absolute;
+  top: 0;
+  width: 2px;
+  height: 13px;
+  background: var(--laranja-vivo);
+  box-shadow: 0 0 12px rgba(255, 148, 51, 0.9);
+}
+
+.playhead-tc {
+  border-radius: var(--r-pill);
+  position: fixed;
+  right: var(--pad);
+  bottom: 22px;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 12px;
+  background: rgba(10, 10, 10, 0.72);
+  border: 1px solid var(--linha);
+  backdrop-filter: blur(10px);
+  color: var(--tinta-fraca);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+
+.playhead-tc b {
+  border-radius: 50%;
+  width: 7px;
+  height: 7px;
+  background: var(--laranja-vivo);
+  animation: pulso 1.4s steps(1, end) infinite;
+}
+
+.playhead-tc span {
+  color: var(--tinta);
+}
+
+@keyframes pulso {
+  0%,
+  55% {
+    opacity: 1;
+  }
+  56%,
+  100% {
+    opacity: 0.15;
+  }
+}
+
+/* ---------- navegação ---------- */
+
+.nav {
+  position: fixed;
+  top: 3px;
+  left: 0;
+  right: 0;
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: var(--topo);
+  padding: 0 var(--pad);
+  transition: background 0.4s var(--ease), border-color 0.4s var(--ease);
+  border-bottom: 1px solid transparent;
+}
+
+.nav.grudou {
+  background: rgba(10, 10, 10, 0.82);
+  backdrop-filter: blur(14px);
+  border-bottom-color: var(--linha);
+}
+
+.nav-marca {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  font-family: var(--font-display), sans-serif;
+  font-size: 21px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.nav-links {
+  display: none;
+  gap: 26px;
+}
+
+.nav-links a {
+  position: relative;
+  color: var(--tinta-fraca);
+  transition: color 0.25s var(--ease);
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  height: 1px;
+  width: 100%;
+  background: var(--laranja-vivo);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.35s var(--ease);
+}
+
+.nav-links a:hover,
+.nav-links a.ativo {
+  color: var(--tinta);
+}
+
+/* o mesmo traço do hover marca a seção em que a pessoa está */
+.nav-links a:hover::after,
+.nav-links a.ativo::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+/* botão: retângulo duro, sem raio. O canto arredondado é o que faz
+   qualquer página parecer produto de SaaS; aqui a marca é cartaz. */
+.botao {
+  border-radius: var(--r-pill);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 20px;
+  background: var(--laranja);
+  color: var(--sobre-acento);
+  font-family: var(--font-mono), ui-rounded, system-ui, sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: background 0.25s var(--ease), transform 0.25s var(--ease);
+}
+
+.botao:hover {
+  background: var(--laranja-vivo);
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.9);
+}
+
+.botao-vazado {
+  background: transparent;
+  border: 1px solid var(--linha);
+  color: var(--tinta);
+}
+
+.botao-vazado:hover {
+  background: var(--branco);
+  color: var(--preto);
+  box-shadow: 4px 4px 0 var(--laranja);
+}
+
+.claro .botao-vazado {
+  border-color: var(--linha-esc);
+  color: var(--tinta-esc);
+}
+
+.claro .botao-vazado:hover {
+  background: var(--preto);
+  color: var(--branco);
+}
+
+.nav-botao {
+  display: none;
+}
+
+/* ---------- capa: a divisão ----------
+
+   Metade chapada, metade cena. Texto sobre preto lê sempre; a marca
+   aparece dentro de uma cena de tinta em vez de recortada no vazio.
+
+   `overflow-x: clip` e não `hidden`: hidden em um eixo força o outro a
+   virar auto e cria uma barra de rolagem que ninguém pediu. */
+
+.cp {
+  position: relative;
+  z-index: 2;
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  overflow-x: clip;
+  background: var(--preto);
+}
+
+/* ---------- metade chapada ---------- */
+
+.cp-texto {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  padding: calc(var(--topo) + clamp(80px, 14vh, 150px)) var(--pad)
+    clamp(46px, 8vh, 90px);
+  will-change: transform;
+}
+
+.cp-texto > * + * {
+  margin-top: 1.1rem;
+}
+
+.cp-rot {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--tinta-fraca);
+}
+
+.cp-rot i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--laranja-vivo);
+}
+
+.cp-h1 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-weight: var(--display-peso);
+  font-stretch: var(--display-largura);
+  font-size: clamp(2.2rem, 5vw, 5rem);
+  line-height: 0.94;
+  letter-spacing: -0.012em;
+  text-transform: uppercase;
+}
+
+/* A linha é recortada porque a entrada sobe o texto de dentro dela. A
+   folga em cima existe por causa do português: com o recorte colado na
+   caixa, o til de NÃO e o acento de É ficam do lado de fora e são
+   cortados. A margem negativa devolve a entrelinha. */
+.cp-linha {
+  display: block;
+  overflow: hidden;
+  padding: 0.16em 0 0.06em;
+  margin-top: -0.16em;
+}
+
+.cp-linha > span {
+  display: block;
+  will-change: transform;
+}
+
+.cp-sub {
+  max-width: 42ch;
+  color: var(--tinta-fraca);
+  font-size: clamp(1rem, 1.2vw, 1.12rem);
+}
+
+.cp-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: clamp(22px, 3.4vh, 36px) !important;
+}
+
+/* ---------- a cena ----------
+
+   Um invólucro POSICIONA, um filho ANIMA. Nenhum elemento faz as duas
+   coisas: com posição e animação no mesmo lugar, o `translate` do CSS e
+   o `transform` do GSAP disputam e o símbolo sai do centro. */
+
+/* A cena cobre a CAPA INTEIRA e fica atrás do texto. Como coluna, ela
+   dividia a tela em duas telas menores; cobrindo tudo, o tecido é o
+   fundo da página e o véu por cima é que devolve a leitura. */
+/* A capa termina em preto e a seção seguinte começa em preto: as duas
+   se encontram sem linha de corte. */
+.cp::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(120px, 22vh, 260px);
+  /* abaixo do texto e acima da cena: o degradê junta as seções sem
+     apagar os botões */
+  z-index: 2;
+  background: linear-gradient(to top, var(--preto) 0%, rgba(10, 10, 10, 0.7) 42%, rgba(10, 10, 10, 0) 100%);
+  pointer-events: none;
+}
+
+.trabalho {
+  position: relative;
+}
+
+.trabalho::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: clamp(100px, 18vh, 220px);
+  background: linear-gradient(to bottom, var(--preto) 0%, rgba(10, 10, 10, 0) 100%);
+  pointer-events: none;
+}
+
+.cp-cena {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: #0d0705;
+}
+
+.cn-pos {
+  position: absolute;
+  display: block;
+  pointer-events: none;
+}
+
+.cn-camada {
+  display: block;
+  will-change: transform;
+}
+
+.cn-fundo {
+  inset: 0;
+}
+
+.cn-fundo canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* o símbolo da marca, pintado por máscara em branco sobre o tecido */
+.cn-marca {
+  top: 50%;
+  right: 6vw;
+  width: min(34vw, 420px);
+  translate: 0 -50%;
+  rotate: -3deg;
+}
+
+.cn-simbolo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 365 / 446;
+  background: #ffffff;
+  -webkit-mask: url("/marca/vizzu-simbolo.png") center / contain no-repeat;
+  mask: url("/marca/vizzu-simbolo.png") center / contain no-repeat;
+  filter: drop-shadow(0 34px 46px rgba(0, 0, 0, 0.6));
+  opacity: 0.92;
+}
+
+/* o símbolo nítido, no centro da cena */
+/* O crachá ocupa a metade direita da capa e recebe o ponteiro: é ele
+   que a pessoa pega e balança. */
+.cn-cracha {
+  position: absolute;
+  inset: 0 0 0 42%;
+  z-index: 3;
+}
+
+.cn-cracha canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+
+
+/* véu de contato: escurece as bordas da cena para o corte com a metade
+   preta não ser uma linha dura no meio da tela */
+.cn-veu {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to right,
+      rgba(10, 10, 10, 0.94) 0%,
+      rgba(10, 10, 10, 0.8) 34%,
+      rgba(10, 10, 10, 0.42) 62%,
+      rgba(10, 10, 10, 0.3) 100%
+    ),
+    linear-gradient(to top, rgba(10, 10, 10, 0.7) 0%, rgba(10, 10, 10, 0) 46%);
+  pointer-events: none;
+}
+
+/* a espiral de trabalho, na metade direita da capa */
+.cp-espiral {
+  position: absolute;
+  top: 50%;
+  right: 2vw;
+  z-index: 3;
+  width: min(46vw, 640px);
+  height: min(680px, 78svh);
+  translate: 0 -50%;
+}
+
+/* o disco que cresce do ponto do clique e leva para o projeto */
+.cortina-troca {
+  position: fixed;
+  z-index: 90;
+  display: block;
+  border-radius: 50%;
+  translate: -50% -50%;
+  pointer-events: none;
+}
+
+/* o símbolo, no centro da tela, enquanto a cortina cobre */
+.cortina-marca {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 91;
+  display: block;
+  width: min(220px, 42vw);
+  aspect-ratio: 785 / 357;
+  translate: -50% -50%;
+  pointer-events: none;
+  -webkit-mask: url("/marca/vizzu-logo.png") center / contain no-repeat;
+  mask: url("/marca/vizzu-logo.png") center / contain no-repeat;
+}
+
+/* a cortina que abre a página de projeto, na cor da marca dele */
+.ab-projeto {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+  will-change: clip-path;
+}
+
+/* a chamada de rolagem: centro do rodapé da capa, com um traço que
+   desce sozinho no lugar de seta de template */
+.cp-role {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(18px, 3vh, 34px);
+  z-index: 4;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  translate: -50% 0;
+  color: var(--tinta-tenue);
+  transition: color 0.3s var(--ease);
+}
+
+.cp-role:hover {
+  color: var(--tinta);
+}
+
+.cp-role i {
+  display: block;
+  width: 1px;
+  height: 42px;
+  background: linear-gradient(to bottom, var(--laranja-vivo), transparent);
+  animation: cp-desce 2.2s var(--ease) infinite;
+}
+
+@keyframes cp-desce {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  55% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  56% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cp-role i {
+    animation: none;
+  }
+}
+
+/* o filho que ANDA com o ponteiro; o pai já anda com a rolagem */
+.cp-espiral-mov {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 899px) {
+  /* No celular o símbolo sairia por cima do texto: ele sai de cena e
+     sobra o tecido, que já é a marca. */
+  .cn-marca {
+    display: none;
+  }
+
+  /* A espiral fica: ela é o trabalho aparecendo na primeira tela. O que
+     muda é o papel — em pé ela não flutua na metade direita (não existe
+     metade direita), vira um bloco na fila, abaixo dos botões. */
+  .cp-espiral {
+    position: static;
+    translate: none;
+    width: 100%;
+    height: 300px;
+    margin-top: 18px;
+    /* No desktop a caixa não recorta, para o cartão poder crescer no
+       hover. Em pé não há hover, e sem recorte os cartões das pontas
+       subiam por cima dos botões. */
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 900px) {
+  .cp-texto {
+    max-width: 62%;
+    padding-right: clamp(24px, 3vw, 56px);
+  }
+}
+
+/* ---------- manifesto (fundo claro) ---------- */
+
+.claro {
+  background: var(--branco);
+  color: var(--tinta-esc);
+}
+
+.manifesto {
+  padding: clamp(78px, 12vw, 168px) var(--pad);
+}
+
+.manifesto-grade {
+  display: grid;
+  gap: 44px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.manifesto-frase {
+  font-size: clamp(2rem, 5.6vw, 5.4rem);
+  max-width: 18ch;
+}
+
+/* a palavra destacada não troca de cor: ganha uma tarja laranja por
+   baixo, como marca-texto. Sobre branco, o laranja da marca é fraco
+   demais para virar tipo; como superfície ele fica exato. */
+.manifesto-frase em {
+  position: relative;
+  font-style: normal;
+  z-index: 0;
+}
+
+.manifesto-frase em::after {
+  content: "";
+  position: absolute;
+  left: -0.06em;
+  right: -0.06em;
+  bottom: 0.06em;
+  height: 0.26em;
+  z-index: -1;
+  background: var(--laranja);
+}
+
+.manifesto-texto {
+  display: grid;
+  gap: 18px;
+  max-width: 54ch;
+  color: var(--tinta-esc-fraca);
+}
+
+.manifesto-texto p:first-child {
+  color: var(--tinta-esc);
+  font-size: 1.14rem;
+}
+
+.manifesto-selo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 8px;
+  padding-top: 18px;
+  border-top: 1px solid var(--linha-esc);
+  color: var(--tinta-esc-tenue);
+}
+
+
+/* ---- quem é: retrato, texto que acende e faixa de palavras ---- */
+
+.mf-cabeca {
+  margin-bottom: 8px;
+}
+
+.mf-cabeca .clipe {
+  margin-bottom: 22px;
+}
+
+.mf-corpo {
+  display: grid;
+  gap: 44px;
+}
+
+/* o retrato. A moldura é o plano que inclina; a foto anda por dentro,
+   e é a diferença entre os dois que dá volume. */
+.mf-retrato {
+  margin: 0;
+  display: grid;
+  gap: 14px;
+  perspective: 900px;
+}
+
+.mf-moldura {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-caixa);
+  background: #e6e2dc;
+  aspect-ratio: 4 / 5;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.mf-moldura::after {
+  /* a tarja de cor por cima, no laranja da marca. Ela some no hover:
+     a cor da página entrega a foto, o gesto entrega a pessoa. */
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--laranja);
+  mix-blend-mode: multiply;
+  opacity: 0.55;
+  transition: opacity 0.5s var(--ease);
+  pointer-events: none;
+}
+
+.mf-moldura:hover::after {
+  opacity: 0;
+}
+
+.mf-foto {
+  display: block;
+  width: 108%;
+  height: 108%;
+  margin: -4% 0 0 -4%;
+  object-fit: cover;
+  object-position: center 22%;
+  filter: grayscale(1) contrast(1.06);
+  transition: filter 0.5s var(--ease), scale 0.6s var(--ease);
+  will-change: transform;
+}
+
+.mf-moldura:hover .mf-foto {
+  filter: grayscale(0) contrast(1);
+  scale: 1.03;
+}
+
+/* o brilho que corre na moldura: é o que faz o cartão parecer ter
+   superfície em vez de ser um recorte chapado */
+.mf-brilho {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(
+    118deg,
+    rgba(255, 255, 255, 0) 38%,
+    rgba(255, 255, 255, 0.34) 50%,
+    rgba(255, 255, 255, 0) 62%
+  );
+  opacity: 0;
+  transition: opacity 0.45s var(--ease);
+}
+
+.mf-moldura:hover .mf-brilho {
+  opacity: 1;
+}
+
+.mf-legenda {
+  color: var(--tinta-esc-tenue);
+}
+
+/* cada palavra acende sozinha; o estado inicial fica no CSS para o
+   bloco não piscar cheio antes do primeiro quadro do GSAP */
+.mf-palavra {
+  display: inline-block;
+  will-change: opacity, filter;
+}
+
+.mf-fatos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 26px;
+  padding-top: 24px;
+  border-top: 1px solid var(--linha-esc);
+}
+
+.mf-numero {
+  font-size: clamp(2.2rem, 4.4vw, 3.4rem);
+  line-height: 1;
+  color: var(--tinta-esc);
+  font-variant-numeric: tabular-nums;
+}
+
+.mf-fatos dt {
+  margin-top: 8px;
+  color: var(--tinta-esc-tenue);
+}
+
+/* a faixa de palavras: duas linhas em sentidos opostos, correndo
+   sozinhas e empurradas pela rolagem */
+.mf-faixa {
+  margin: clamp(56px, 8vw, 104px) calc(var(--pad) * -1) calc(clamp(78px, 12vw, 168px) * -1);
+  padding: 26px 0 0;
+  border-top: 1px solid var(--linha-esc);
+  overflow: hidden;
+  user-select: none;
+}
+
+.mf-trilho {
+  display: flex;
+  width: max-content;
+  gap: 0;
+  font-size: clamp(1.6rem, 4vw, 3.2rem);
+  line-height: 1.18;
+  color: var(--tinta-esc);
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.mf-trilho:last-child {
+  color: var(--tinta-esc-tenue);
+}
+
+.mf-trilho span {
+  display: inline-flex;
+  align-items: center;
+}
+
+.mf-trilho i {
+  font-style: normal;
+  margin: 0 0.42em;
+  color: var(--laranja-tipo);
+}
+
+/* ---------- serviços: as trilhas ----------
+
+   Cada área é uma LINHA cheia, como faixa de trilha na timeline. No
+   hover a linha inverte para laranja e o número vira o fundo. Linha e
+   não card: card de três colunas é o desenho que qualquer página de
+   serviço usa, e as três áreas dele não são comparáveis entre si — são
+   etapas de um mesmo trabalho. */
+
+.servicos {
+  padding: clamp(78px, 11vw, 150px) var(--pad);
+  background: var(--preto);
+}
+
+.secao-topo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 22px;
+  max-width: 1400px;
+  margin: 0 auto clamp(44px, 6vw, 76px);
+}
+
+.secao-titulo {
+  font-size: clamp(2.4rem, 6.4vw, 6rem);
+  max-width: 13ch;
+}
+
+.secao-nota {
+  max-width: 34ch;
+  color: var(--tinta-fraca);
+}
+
+.claro .secao-nota {
+  color: var(--tinta-esc-fraca);
+}
+
+.trilhas {
+  max-width: 1400px;
+  margin: 0 auto;
+  border-top: 1px solid var(--linha);
+}
+
+.trilha {
+  position: relative;
+  display: block;
+  padding: clamp(26px, 3.4vw, 42px) 0;
+  border-bottom: 1px solid var(--linha);
+  overflow: hidden;
+}
+
+/* a cortina que sobe no hover. Sobe de baixo, com ease seco: o corte
+   duro combina com o assunto melhor do que um fade. */
+.trilha::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--laranja);
+  transform: scaleY(0);
+  transform-origin: bottom center;
+  transition: transform 0.45s var(--ease-seco);
+}
+
+.trilha:hover::before,
+.trilha:focus-visible::before {
+  transform: scaleY(1);
+}
+
+.trilha-linha {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  gap: 16px 22px;
+  padding-inline: clamp(0px, 1.6vw, 26px);
+  transition: padding 0.45s var(--ease);
+}
+
+.trilha:hover .trilha-linha {
+  padding-inline: clamp(14px, 2.6vw, 40px);
+}
+
+.trilha-num {
+  color: var(--laranja-vivo);
+  transition: color 0.3s var(--ease);
+}
+
+/* sobre o laranja da cortina, tudo vira preto: é o par de contraste da
+   própria logo, e o branco por cima do laranja não passaria em leitura */
+.trilha:hover .trilha-num,
+.trilha:hover .trilha-nome {
+  color: var(--preto);
+}
+
+.trilha-nome {
+  font-size: clamp(1.7rem, 4.6vw, 3.9rem);
+  transition: color 0.3s var(--ease);
+}
+
+.trilha-desc {
+  grid-column: 1 / -1;
+  max-width: 62ch;
+  color: var(--tinta-fraca);
+  transition: color 0.3s var(--ease);
+}
+
+.trilha:hover .trilha-desc {
+  color: rgba(10, 10, 10, 0.86);
+}
+
+.trilha-tags {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.trilha-tags span {
+  border-radius: var(--r-pill);
+  padding: 5px 10px;
+  border: 1px solid var(--linha);
+  color: var(--tinta-tenue);
+  font-family: var(--font-mono), ui-rounded, system-ui, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: border-color 0.3s var(--ease), color 0.3s var(--ease);
+}
+
+.trilha:hover .trilha-tags span {
+  border-color: rgba(10, 10, 10, 0.4);
+  color: var(--preto);
+}
+
+/* ---------- processo (fundo claro) ---------- */
+
+.processo {
+  padding: clamp(78px, 11vw, 150px) var(--pad);
+}
+
+/* ---------- contato ---------- */
+
+.contato {
+  position: relative;
+  padding: clamp(84px, 13vw, 190px) var(--pad);
+  background: var(--laranja);
+  color: var(--preto);
+  overflow: hidden;
+}
+
+.contato-grade {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.contato-titulo {
+  font-size: clamp(2.6rem, 8.4vw, 8rem);
+  max-width: 14ch;
+}
+
+.contato-lead {
+  max-width: 48ch;
+  color: rgba(10, 10, 10, 0.82);
+  font-size: 1.1rem;
+}
+
+.contato-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.contato .botao {
+  background: var(--preto);
+  color: var(--branco);
+}
+
+.contato .botao:hover {
+  background: var(--branco);
+  color: var(--preto);
+  box-shadow: 4px 4px 0 rgba(10, 10, 10, 0.9);
+}
+
+.contato .botao-vazado {
+  background: transparent;
+  border-color: rgba(10, 10, 10, 0.45);
+  color: var(--preto);
+}
+
+.contato .botao-vazado:hover {
+  background: var(--preto);
+  color: var(--branco);
+  box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* palavra gigante cortada pela borda inferior: o mesmo recurso que uma
+   capa de disco usa para dizer que o assunto não cabe na página */
+.contato-fundo {
+  position: absolute;
+  left: -2vw;
+  bottom: -3.5vw;
+  z-index: 1;
+  width: min(74vw, 1080px);
+  aspect-ratio: 785 / 357;
+  background: rgba(10, 10, 10, 0.13);
+  -webkit-mask: url("/marca/vizzu-logo.png") left bottom / contain no-repeat;
+  mask: url("/marca/vizzu-logo.png") left bottom / contain no-repeat;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ---------- rodapé ---------- */
+
+.rodape {
+  display: grid;
+  gap: 30px;
+  padding: 48px var(--pad) 74px;
+  background: var(--preto);
+  border-top: 1px solid var(--linha);
+}
+
+.rodape-linha {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.rodape-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  color: var(--tinta-fraca);
+}
+
+.rodape-links a:hover {
+  color: var(--laranja-vivo);
+}
+
+.rodape-nota {
+  color: var(--tinta-tenue);
+}
+
+/* ---------- reveals ----------
+
+   Estado inicial em CSS e não em JS: se o script falhar ou o usuário
+   pedir menos movimento, o conteúdo tem que estar visível. Por isso o
+   estado escondido só é aplicado quando a classe `js` existe, e ela
+   é adicionada pelo próprio script. */
+
+.js .sobe {
+  opacity: 0;
+  transform: translateY(26px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .sobe {
+    opacity: 1;
+    transform: none;
+  }
+
+  .tarja-fita,
+  .capa-desca i,
+  .playhead-tc b {
+    animation: none !important;
+  }
+
+  * {
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- respiro por largura ---------- */
+
+@media (min-width: 640px) {
+}
+
+@media (min-width: 900px) {
+  .nav-links,
+  .nav-botao {
+    display: flex;
+  }
+
+  .manifesto-grade {
+    gap: 60px;
+  }
+
+  /* retrato à esquerda, texto à direita; o retrato GRUDA enquanto o
+     texto rola, então a pessoa continua olhando para quem escreve */
+  .mf-corpo {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.05fr);
+    gap: 64px;
+    align-items: start;
+  }
+
+  .mf-retrato {
+    position: sticky;
+    top: calc(var(--topo) + 34px);
+  }
+
+  /* No desktop a trilha vira uma faixa de quatro colunas, lida da
+     esquerda para a direita como uma linha de timeline: código, nome,
+     o que é, e em que formatos sai. */
+  .trilha-linha {
+    grid-template-columns: auto minmax(0, 1.05fr) minmax(0, 1.35fr) auto;
+    align-items: center;
+  }
+
+  .trilha-desc,
+  .trilha-tags {
+    grid-column: auto;
+    margin-top: 0;
+  }
+
+  .trilha-tags {
+    justify-content: flex-end;
+    max-width: 210px;
+  }
+
+}
+
+/* ---------- o olho ----------
+
+   A logo é um V com um olho dentro. O olho sai da logo e vira o motivo
+   da página: na marca do topo, atrás da manchete e no rodapé. A pupila
+   segue o ponteiro — é o único movimento da capa que responde a quem
+   está lendo, e diz a frase da manchete sem escrevê-la de novo.
+
+   Fica ATRÁS do texto e com opacidade baixa. Um olho grande e opaco no
+   meio de uma capa vira ilustração de banco de imagem; apagado, é
+   textura que só se nota no segundo olhar. */
+
+.olho-capa {
+  position: absolute;
+  top: 42%;
+  right: calc(var(--pad) - 2vw);
+  z-index: 2;
+  width: min(78vw, 620px);
+  transform: translateY(-50%);
+  color: var(--laranja);
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.olho-capa .olho-traco {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 5;
+}
+
+.olho-capa .olho-pupila {
+  fill: currentColor;
+  will-change: transform;
+}
+
+/* piscada: rara e curta. Uma piscada por vez, a cada seis segundos,
+   com `steps` para o corte ser seco como o de um obturador. */
+.olho-palpebra {
+  transform-origin: center;
+  animation: piscar 6.5s var(--ease) infinite;
+}
+
+@keyframes piscar {
+  0%,
+  94%,
+  100% {
+    transform: scaleY(1);
+  }
+  96.5% {
+    transform: scaleY(0.04);
+  }
+}
+
+/* A marca vira uma máscara pintada pelo acento do tema. O arquivo
+   continua sendo o PNG original: só o alfa dele é usado como recorte,
+   e a cor vem da variável. */
+.marca-logo {
+  display: block;
+  flex: none;
+  width: 96px;
+  height: 44px;
+  background: var(--laranja);
+  -webkit-mask: url("/marca/vizzu-logo.png") center / contain no-repeat;
+  mask: url("/marca/vizzu-logo.png") center / contain no-repeat;
+}
+
+.rodape-logo {
+  display: block;
+  width: 88px;
+  height: 40px;
+  background: var(--laranja);
+  -webkit-mask: url("/marca/vizzu-logo.png") center / contain no-repeat;
+  mask: url("/marca/vizzu-logo.png") center / contain no-repeat;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .olho-palpebra {
+    animation: none;
+  }
+}
+
+/* Os pedaços que chamam a display fora da classe `.display` precisam do
+   mesmo peso e da mesma largura do eixo variável — senão caem no peso
+   regular do Archivo e a página fica com duas vozes de manchete. */
+
+
+/* ---------- o projeto aberto ----------
+
+   Monitor de referência: barra em cima, palco preto no meio, ficha e
+   filmstrip embaixo. O palco é preto de verdade (#000) e não o preto
+   da página — é o fundo de aferição de quem edita, e faz a peça ser
+   julgada pela peça.
+
+   Entrar e sair usam a mesma transição em sentidos opostos: `dentro`
+   é ligada um quadro depois de montar e desligada antes de desmontar.
+   A saída é mais curta que a entrada — abrir merece ser visto, fechar
+   só precisa não ser um corte. */
+
+.peca {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  display: grid;
+  place-items: center;
+  padding: clamp(10px, 2.4vw, 34px);
+}
+
+.peca:not(.dentro) {
+  pointer-events: none;
+}
+
+.peca-veu {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  padding: 0;
+  background: rgba(5, 5, 5, 0.86);
+  backdrop-filter: blur(6px);
+  border: 0;
+  cursor: zoom-out;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+}
+
+.peca.dentro .peca-veu {
+  opacity: 1;
+}
+
+.peca-caixa {
+  border-radius: var(--r-caixa);
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: min(1240px, 100%);
+  height: min(880px, 100%);
+  background: var(--carvao);
+  border: 1px solid rgba(245, 124, 31, 0.4);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(22px) scale(0.94);
+  transition: opacity 0.26s var(--ease), transform 0.26s var(--ease);
+  will-change: transform, opacity;
+}
+
+.peca.dentro .peca-caixa {
+  opacity: 1;
+  transform: none;
+  transition-duration: 0.42s, 0.52s;
+}
+
+.peca-caixa:focus {
+  outline: none;
+}
+
+.peca-barra {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 14px 12px 18px;
+  background: var(--fumaca);
+  border-bottom: 1px solid var(--linha);
+}
+
+.peca-nome {
+  font-size: clamp(1rem, 1.7vw, 1.4rem);
+  line-height: 1;
+}
+
+.peca-tipo {
+  color: var(--laranja-vivo);
+}
+
+.peca-conta {
+  margin-left: auto;
+  color: var(--tinta-tenue);
+  font-variant-numeric: tabular-nums;
+}
+
+.peca-fechar {
+  border-radius: var(--r-pill);
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--linha);
+  color: var(--tinta-fraca);
+  font-size: 15px;
+  transition: background 0.25s var(--ease), color 0.25s var(--ease);
+}
+
+.peca-fechar:hover {
+  background: var(--laranja);
+  border-color: var(--laranja);
+  color: var(--preto);
+}
+
+.peca-palco {
+  border-radius: 0;
+  position: relative;
+  min-height: 0;
+  padding: clamp(10px, 2vw, 26px);
+  background: #000;
+  overflow: hidden;
+}
+
+/* A peça é posicionada, não centralizada por grade. `max-height: 100%`
+   dentro de uma linha de grade sem altura definida não segura nada: a
+   imagem crescia até o tamanho natural e passava por cima da ficha.
+   Absoluta com `inset: 0`, a caixa é exatamente o palco, e o
+   `object-fit` cuida da proporção. */
+.peca-midia {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.peca-seta {
+  border-radius: var(--r-pill);
+  position: absolute;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 66px;
+  transform: translateY(-50%);
+  background: rgba(10, 10, 10, 0.6);
+  border: 1px solid var(--linha);
+  color: var(--tinta);
+  font-size: 26px;
+  line-height: 1;
+  transition: background 0.25s var(--ease), color 0.25s var(--ease);
+}
+
+.peca-seta:hover {
+  background: var(--laranja);
+  border-color: var(--laranja);
+  color: var(--preto);
+}
+
+.peca-seta-esq {
+  left: 10px;
+}
+
+.peca-seta-dir {
+  right: 10px;
+}
+
+.peca-pe {
+  display: grid;
+  gap: 14px;
+  padding: 14px 18px 16px;
+  background: var(--fumaca);
+  border-top: 1px solid var(--linha);
+}
+
+.peca-resumo {
+  max-width: 78ch;
+  color: var(--tinta-fraca);
+  font-size: 0.95rem;
+}
+
+/* A fita de miniaturas rola sozinha na horizontal. Com quinze peças,
+   fazer a lista quebrar em linhas comeria o palco. */
+.peca-fita {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+}
+
+.peca-mini {
+  border-radius: 8px;
+  position: relative;
+  flex: none;
+  width: 74px;
+  height: 48px;
+  padding: 0;
+  background: #000;
+  border: 1px solid var(--linha);
+  overflow: hidden;
+  opacity: 0.55;
+  transition: opacity 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+
+.peca-mini img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.peca-mini:hover {
+  opacity: 0.85;
+}
+
+.peca-mini.ativa {
+  opacity: 1;
+  border-color: var(--laranja);
+}
+
+.peca-mini-play {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--branco);
+  font-size: 13px;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .peca-veu,
+  .peca-caixa {
+    transition-duration: 0.01ms;
+  }
+
+  .peca-caixa {
+    transform: none;
+  }
+}
+
+@media (min-width: 700px) {
+  .vitrine {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1100px) {
+  .vitrine {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* o primeiro cartão vale por dois: seis retângulos iguais viram
+     catálogo, e catálogo não tem entrada */
+  .projeto-largo {
+    grid-column: span 2;
+  }
+
+  .projeto-largo .projeto-capa {
+    aspect-ratio: 2 / 1;
+  }
+
+  .projeto-largo .projeto-nome {
+    font-size: clamp(1.6rem, 3vw, 2.6rem);
+  }
+}
+
+/* No celular o relógio de timecode disputa o mesmo canto com o aviso de
+   rolar, e ele é o menos importante dos dois: sai. */
+@media (max-width: 699px) {
+  .playhead-tc {
+    display: none;
+  }
+}
+
+/* ---------- abertura ----------
+
+/* A trava mora no <html> e não no <body>: o Lenis lê a rolagem do
+   documento, e mexer no body faz a barra sumir e a página saltar de
+   largura no instante em que a cortina abre. */
+html.travado {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+  touch-action: none;
+  overscroll-behavior: none;
+}
+
+.abertura {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  /* preto com um respiro quente no centro: o fundo chapado deixava o
+     símbolo boiando, e o branco brigava com o resto da página */
+  background: radial-gradient(circle at center, #141110 0%, #0c0a09 52%, #070605 100%);
+}
+
+.abertura.saindo .ab-pular {
+  display: none;
+}
+
+.ab-nucleo {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: 22px;
+}
+
+/* o palco é o quadrado onde o símbolo e a órbita convivem */
+.ab-palco {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(200px, 46vw, 264px);
+  aspect-ratio: 1;
+}
+
+.ab-anel {
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  border: 1px solid rgba(245, 124, 31, 0.26);
+  box-shadow: 0 0 48px rgba(245, 124, 31, 0.14);
+}
+
+/* A órbita é um quadrado do tamanho do palco girando; o ponto mora na
+   borda de cima dele. Girar o container e não o ponto evita ter que
+   calcular seno e cosseno a cada quadro. */
+.ab-orbita {
+  position: absolute;
+  inset: 0;
+  animation: ab-girar 1.15s linear infinite;
+  will-change: transform;
+}
+
+.ab-ponto {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 22px;
+  height: 22px;
+  margin-left: -11px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 25%,
+    #ffffff 0%,
+    #ffc38a 34%,
+    var(--laranja) 68%,
+    #a8500c 100%
+  );
+  box-shadow: 0 8px 20px rgba(168, 80, 12, 0.28);
+}
+
+@keyframes ab-girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ab-marca {
+  position: relative;
+  display: block;
+  width: clamp(150px, 34vw, 232px);
+  aspect-ratio: 785 / 357;
+  background: var(--laranja);
+  -webkit-mask: url("/marca/vizzu-logo.png") center / contain no-repeat;
+  mask: url("/marca/vizzu-logo.png") center / contain no-repeat;
+  filter: drop-shadow(0 20px 28px rgba(168, 80, 12, 0.18));
+}
+
+/* barra e contador na mesma linha: a barra diz o quanto falta de
+   relance, o número diz exatamente onde está. */
+.ab-carga {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ab-barra {
+  border-radius: var(--r-pill);
+  width: min(240px, 50vw);
+  height: 3px;
+  background: rgba(10, 10, 10, 0.12);
+  overflow: hidden;
+}
+
+.ab-barra i {
+  display: block;
+  height: 100%;
+  background: var(--laranja);
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+
+.ab-porcento {
+  color: rgba(255, 255, 255, 0.58);
+  font-variant-numeric: tabular-nums;
+}
+
+/* O DISCO.
+
+   Cresce do centro na cor da marca e cobre a tela branca; depois a
+   cortina inteira apaga. Um círculo com largura e altura animadas, e
+   não uma máscara: interpola igual em todo navegador e é só um
+   elemento pintado.
+
+   Fica escondido até a saída começar — antes disso ele estaria por
+   cima do próprio símbolo. */
+.ab-disco {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 10;
+  width: 0;
+  height: 0;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: var(--laranja);
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.ab-pular {
+  border-radius: var(--r-pill);
+  position: absolute;
+  z-index: 20;
+  right: var(--pad);
+  bottom: clamp(18px, 4vh, 34px);
+  padding: 9px 14px;
+  border: 1px solid var(--linha-esc);
+  color: rgba(10, 10, 10, 0.55);
+  transition: color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+
+.ab-pular:hover {
+  color: var(--laranja-tipo);
+  border-color: var(--laranja);
+}
+
+/* Sem movimento, sem cortina: a página abre direto. */
+@media (prefers-reduced-motion: reduce) {
+  .abertura {
+    display: none;
+  }
+}
+
+/* Quem chama a display fora da classe .display precisa dos mesmos
+   tokens: sem isso cairia no peso regular e a página ficaria com duas
+   vozes de manchete. */
+.tarja-item,
+.projeto-nome,
+.peca-nome,
+
+
+/* ---------- página de projeto ----------
+
+   O container `.tema` reescreve as variáveis de cor e de manchete. Tudo
+   aqui dentro — inclusive o menu e o rodapé, que são os mesmos da home —
+   passa a falar na voz do projeto sem uma regra duplicada.
+
+   A página tem quatro tempos: capa cheia, ficha, grade de peças e a
+   porta para o próximo. A grade é de DOZE colunas, e a proporção de
+   cada arquivo decide quantas ele ocupa. */
+
+.tema {
+  background: var(--preto);
+  color: var(--tinta);
+  min-height: 100svh;
+}
+
+/* ---- 1. capa: a peça ao fundo, o nome por cima ---- */
+
+.pj-capa {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 86svh;
+  padding: calc(var(--topo) + clamp(60px, 12vh, 120px)) var(--pad)
+    clamp(38px, 6vh, 68px);
+  overflow: hidden;
+  border-bottom: 1px solid var(--linha);
+}
+
+.pj-fundo {
+  position: absolute;
+  inset: -8% 0 -8%;
+  z-index: -2;
+  will-change: transform;
+}
+
+.pj-fundo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: grayscale(0.35) contrast(1.05);
+}
+
+/* O véu é o que faz o título ler sobre QUALQUER capa: escuro embaixo,
+   onde o texto está, e quase limpo em cima, onde a peça aparece. */
+.pj-veu {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(
+      to top,
+      color-mix(in srgb, var(--preto) 96%, transparent) 0%,
+      color-mix(in srgb, var(--preto) 72%, transparent) 42%,
+      color-mix(in srgb, var(--preto) 28%, transparent) 100%
+    ),
+    linear-gradient(
+      to right,
+      color-mix(in srgb, var(--preto) 62%, transparent) 0%,
+      transparent 62%
+    );
+}
+
+.pj-capa-texto {
+  display: grid;
+  gap: 18px;
+  max-width: 1500px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.pj-volta {
+  color: var(--tinta-tenue);
+}
+
+.pj-volta a:hover {
+  color: var(--laranja-vivo);
+}
+
+.pj-titulo {
+  font-size: clamp(2.6rem, 9vw, 8.5rem);
+  max-width: 16ch;
+}
+
+.pj-linha {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 22px;
+  padding-top: 16px;
+  border-top: 1px solid var(--linha);
+}
+
+.pj-tipo {
+  color: var(--laranja-vivo);
+}
+
+.pj-conta {
+  color: var(--tinta-tenue);
+}
+
+/* a palavra "rolar" com um traço que desce sozinho: diz que a página
+   continua, sem seta de template */
+.pj-role {
+  position: absolute;
+  right: var(--pad);
+  bottom: clamp(38px, 6vh, 68px);
+  display: none;
+  align-items: center;
+  gap: 10px;
+  color: var(--tinta-tenue);
+}
+
+.pj-role::after {
+  content: "";
+  width: 1px;
+  height: 46px;
+  background: linear-gradient(to bottom, var(--laranja-vivo), transparent);
+  animation: pj-desce 2.2s var(--ease) infinite;
+}
+
+@keyframes pj-desce {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  55% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  56% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+
+/* ---- 2. ficha: resumo de um lado, números do outro ---- */
+
+.pj-ficha {
+  display: grid;
+  gap: clamp(34px, 5vw, 70px);
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: clamp(56px, 9vh, 110px) var(--pad);
+}
+
+.pj-ficha-texto {
+  display: grid;
+  gap: 22px;
+}
+
+.pj-resumo {
+  font-size: clamp(1.25rem, 2.4vw, 2rem);
+  line-height: 1.42;
+  max-width: 24ch;
+  color: var(--tinta);
+}
+
+.pj-palavra {
+  display: inline-block;
+  will-change: opacity;
+}
+
+.pj-ficha-lado {
+  display: grid;
+  gap: 26px;
+  align-content: start;
+}
+
+.pj-numeros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(24px, 4vw, 52px);
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--linha);
+}
+
+.pj-numeros dt {
+  color: var(--tinta-tenue);
+  margin-bottom: 6px;
+}
+
+.pj-numeros dd {
+  font-size: clamp(1.8rem, 3.4vw, 2.8rem);
+  line-height: 1;
+  text-transform: uppercase;
+  font-family: var(--font-display), sans-serif;
+  font-weight: var(--display-peso);
+  font-stretch: var(--display-largura);
+  font-variant-numeric: tabular-nums;
+}
+
+.pj-nota {
+  padding-left: 16px;
+  border-left: 2px solid var(--laranja);
+  color: var(--tinta-fraca);
+  line-height: 1.75;
+  max-width: 46ch;
+}
+
+/* ---- 3. as peças ----
+   Doze colunas. Peça deitada ocupa a linha inteira, peça em pé ocupa um
+   terço e o resto fica em meia largura; `dense` deixa as em pé fecharem
+   buraco em vez de sobrar canto vazio. */
+
+.pj-pecas {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-auto-flow: dense;
+  gap: clamp(14px, 2vw, 30px);
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0 var(--pad) clamp(50px, 8vh, 100px);
+}
+
+.pj-peca {
+  grid-column: span 12;
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  will-change: transform, opacity, clip-path;
+}
+
+.pj-quadro {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-caixa);
+  border: 1px solid var(--linha);
+  background: var(--carvao);
+}
+
+.pj-quadro img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.7s var(--ease);
+}
+
+.pj-peca:hover .pj-quadro img {
+  transform: scale(1.02);
+}
+
+.pj-peca figcaption {
+  display: flex;
+  gap: 16px;
+  color: var(--tinta-tenue);
+}
+
+.pj-peca figcaption span:first-child {
+  color: var(--laranja-vivo);
+}
+
+/* o contador da sequência, no canto */
+.pj-contador {
+  position: fixed;
+  right: var(--pad);
+  bottom: 22px;
+  z-index: 40;
+  display: none;
+  align-items: baseline;
+  gap: 3px;
+  padding: 8px 12px;
+  border: 1px solid var(--linha);
+  border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--preto) 74%, transparent);
+  backdrop-filter: blur(8px);
+  color: var(--tinta);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+
+.pj-contador i {
+  font-style: normal;
+  color: var(--tinta-tenue);
+}
+
+/* ---- o vídeo com a timeline da casa ---- */
+
+.vd {
+  position: relative;
+  display: block;
+  background: #000;
+}
+
+.vd video {
+  display: block;
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+}
+
+/* o alvo grande de tocar, que some enquanto o vídeo roda */
+.vd-tocar {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  display: grid;
+  place-items: center;
+  width: clamp(58px, 7vw, 82px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--laranja);
+  color: var(--sobre-acento);
+  font-size: 15px;
+  opacity: 1;
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+}
+
+.vd-tocar:hover {
+  transform: scale(1.06);
+}
+
+.vd-tocando .vd-tocar {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.vd-tocando:hover .vd-tocar {
+  opacity: 0.9;
+  pointer-events: auto;
+}
+
+/* a barra: régua fina, playhead no acento, timecode dos dois lados */
+.vd-barra {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0));
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.vd:hover .vd-barra,
+.vd:focus-within .vd-barra,
+.vd-tocando .vd-barra {
+  opacity: 1;
+  transform: none;
+}
+
+.vd-botao {
+  flex: none;
+  color: #fff;
+  font-family: var(--font-mono), ui-rounded, system-ui, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  opacity: 0.82;
+  transition: opacity 0.25s var(--ease);
+}
+
+.vd-botao:hover {
+  opacity: 1;
+}
+
+.vd-tc {
+  flex: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-variant-numeric: tabular-nums;
+}
+
+.vd-tc-fim {
+  color: rgba(255, 255, 255, 0.42);
+}
+
+/* o par botão + régua de volume, na ponta direita da barra */
+.vd-som {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* a régua de volume é a mesma régua do tempo, mais curta e mais fina:
+   duas linguagens diferentes na mesma barra seriam dois controles */
+.vd-regua-som {
+  flex: none;
+  width: 68px;
+  height: 12px;
+}
+
+.vd-regua-som b {
+  height: 10px;
+}
+
+.vd-regua {
+  position: relative;
+  flex: 1;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  touch-action: none;
+}
+
+.vd-regua::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.vd-regua i {
+  position: absolute;
+  left: 0;
+  height: 2px;
+  background: var(--laranja);
+}
+
+.vd-regua b {
+  position: absolute;
+  width: 2px;
+  height: 12px;
+  translate: -50% 0;
+  background: var(--laranja-vivo);
+}
+
+/* ---------- porta para o próximo ---------- */
+
+.pj-proximo {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-items: center;
+  min-height: clamp(280px, 46vh, 460px);
+  padding: clamp(48px, 9vh, 100px) var(--pad);
+  overflow: hidden;
+  background: var(--preto);
+  border-top: 1px solid var(--linha);
+  border-bottom: 1px solid var(--linha);
+  color: var(--tinta);
+}
+
+.pj-proximo-fundo {
+  position: absolute;
+  inset: -10% 0 -10%;
+  z-index: -2;
+  opacity: 0.3;
+  transition: opacity 0.6s var(--ease);
+}
+
+.pj-proximo-fundo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1);
+  transition: filter 0.6s var(--ease);
+}
+
+.pj-proximo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--preto) 92%, transparent) 0%,
+    color-mix(in srgb, var(--preto) 55%, transparent) 100%
+  );
+}
+
+.pj-proximo:hover .pj-proximo-fundo {
+  opacity: 0.5;
+}
+
+.pj-proximo:hover .pj-proximo-fundo img {
+  filter: grayscale(0.2);
+}
+
+.pj-proximo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(20px, 4vw, 60px);
+}
+
+.pj-proximo-texto {
+  display: grid;
+  justify-items: start;
+  gap: 14px;
+}
+
+/* a tarja diz o que o bloco É, na cor do projeto de destino e com o
+   tipo por cima dela: rótulo solto em cinza passava despercebido */
+.pj-proximo-tarja {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  border-radius: var(--r-pill);
+  background: var(--laranja);
+  color: var(--sobre-acento);
+}
+
+.pj-proximo-tarja::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: var(--sobre-acento);
+}
+
+.pj-proximo-tipo {
+  color: var(--tinta-fraca);
+}
+
+/* o alvo redondo, com a seta: é o que faz o bloco parecer clicável
+   antes de o ponteiro chegar nele */
+.pj-proximo-seta {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: clamp(56px, 7vw, 84px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid var(--laranja);
+  color: var(--laranja-vivo);
+  font-size: clamp(1.1rem, 2vw, 1.6rem);
+  transition: background 0.4s var(--ease), color 0.4s var(--ease),
+    transform 0.4s var(--ease);
+}
+
+.pj-proximo:hover .pj-proximo-seta {
+  background: var(--laranja);
+  color: var(--sobre-acento);
+  transform: translateX(8px);
+}
+
+.pj-proximo-nome {
+  font-size: clamp(2rem, 6vw, 5rem);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.14em;
+  text-decoration-thickness: 2px;
+  transition: transform 0.5s var(--ease), text-decoration-color 0.4s var(--ease);
+}
+
+.pj-proximo:hover .pj-proximo-nome {
+  transform: translateX(10px);
+  text-decoration-color: var(--laranja);
+}
+
+/* ---------- fecho ---------- */
+
+.pj-fim {
+  display: grid;
+  justify-items: start;
+  gap: 26px;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: clamp(56px, 10vh, 120px) var(--pad);
+}
+
+.pj-fim-titulo {
+  font-size: clamp(1.9rem, 5vw, 4rem);
+  max-width: 18ch;
+}
+
+@media (min-width: 700px) {
+  .pj-larga {
+    grid-column: span 12;
+  }
+
+  .pj-media {
+    grid-column: span 6;
+  }
+
+  .pj-alta {
+    grid-column: span 4;
+  }
+
+  /* Nada de `cover` aqui: recortar para alinhar a linha da grade
+     custava metade da peça e ainda esticava o arquivo. Cada peça
+     aparece inteira, no tamanho em que foi entregue. */
+  .pj-media .pj-quadro,
+  .pj-alta .pj-quadro {
+    margin-inline: auto;
+  }
+}
+
+@media (min-width: 900px) {
+  .pj-ficha {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  /* a ficha gruda enquanto o resumo é lido */
+  .pj-ficha-lado {
+    position: sticky;
+    top: calc(var(--topo) + 40px);
+  }
+
+  .pj-role,
+  .pj-contador {
+    display: flex;
+  }
+}
+
+/* A seção perdeu o próprio respiro quando a vitrine antiga saiu: sem
+   ela, o bento encostava na borda de baixo. */
+.trabalho {
+  padding: clamp(78px, 11vw, 150px) var(--pad) clamp(90px, 13vw, 170px);
+  background: var(--preto);
+}
+
+/* ---------- Magic Bento: a vitrine ----------
+
+   Grade assimétrica de seis cartões. O primeiro vale por dois: seis
+   retângulos iguais viram catálogo, e catálogo não tem entrada.
+
+   O brilho da borda é desenhado por um `::after` com máscara: o
+   gradiente pinta a área toda e a máscara recorta o miolo, sobrando só
+   a moldura acesa. `--glow-intensity` é escrito pelo holofote conforme
+   a distância do ponteiro, então a borda acende ANTES do hover — é isso
+   que dá a sensação de que a grade inteira responde. */
+
+.bento {
+  position: relative;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.bento-grade {
+  display: grid;
+  gap: clamp(12px, 1.4vw, 20px);
+  grid-template-columns: 1fr;
+}
+
+.bento-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 320px;
+  padding: 18px;
+  overflow: hidden;
+  border: 1px solid var(--linha);
+  border-radius: 20px;
+  background: var(--carvao);
+  color: var(--tinta);
+  isolation: isolate;
+  transition: transform 0.35s var(--ease), border-color 0.35s var(--ease);
+}
+
+.bento-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(var(--glow-color), 0.55);
+}
+
+/* a capa é o fundo do cartão, apagada; o texto vive por cima dela */
+.bento-capa {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  display: block;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.bento-capa img {
+  /* A peça é o que a pessoa veio ver: quase sem escurecer. Antes ela
+     estava em 0.5 de brilho e o cartão virava notícia com foto de
+     fundo. */
+  filter: saturate(1) brightness(0.92);
+  transition: filter 0.5s var(--ease), transform 0.7s var(--ease);
+}
+
+.bento-card:hover .bento-capa img {
+  filter: saturate(1.06) brightness(1.02);
+  transform: scale(1.04);
+}
+
+/* O véu é só o rodapé do cartão: um degradê curto onde o nome mora.
+   Cobrindo o cartão inteiro, ele apagava a peça. */
+.bento-capa::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 62%;
+  background: linear-gradient(
+    to top,
+    rgba(10, 10, 10, 0.95) 0%,
+    rgba(10, 10, 10, 0.72) 34%,
+    rgba(10, 10, 10, 0) 100%
+  );
+}
+
+.bento-topo {
+  position: relative;
+  align-self: flex-start;
+  padding: 6px 11px;
+  border-radius: var(--r-pill);
+  background: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(8px);
+  color: rgb(var(--glow-color));
+}
+
+.bento-pe {
+  position: relative;
+  display: grid;
+  gap: 6px;
+}
+
+.bento-nome {
+  font-family: var(--font-display), sans-serif;
+  font-weight: var(--display-peso);
+  font-stretch: var(--display-largura);
+  font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+  text-transform: uppercase;
+  line-height: 0.95;
+}
+
+.bento-corta {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+.bento-conta {
+  color: var(--tinta-tenue);
+}
+
+/* a moldura que acende por proximidade */
+.bento-borda::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: 5px;
+  border-radius: inherit;
+  background: radial-gradient(
+    var(--glow-radius) circle at var(--glow-x) var(--glow-y),
+    rgba(var(--glow-color), calc(var(--glow-intensity) * 0.9)) 0%,
+    rgba(var(--glow-color), calc(var(--glow-intensity) * 0.45)) 30%,
+    transparent 60%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: opacity 0.3s var(--ease);
+}
+
+.bento-card:hover {
+  box-shadow: 0 18px 50px -24px rgba(0, 0, 0, 0.9),
+    0 0 40px rgba(var(--glow-color), 0.18);
+}
+
+.bento-particula::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: rgba(var(--glow-color), 0.2);
+  z-index: -1;
+}
+
+@media (min-width: 700px) {
+  .bento-grade {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1100px) {
+  .bento-grade {
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: minmax(280px, auto);
+  }
+
+  .bento-card-largo {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .bento-card-largo .bento-nome {
+    font-size: clamp(1.8rem, 3.2vw, 3rem);
+  }
+
+}
+
+/* ---------- processo: a linha do tempo ----------
+
+   Uma trilha vertical com um playhead que desce com a rolagem. O passo
+   por onde ele passou fica aceso; os outros ficam apagados, e é esse
+   contraste que faz o olho saber onde está a leitura. */
+
+.pr-trilha {
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-left: clamp(30px, 4vw, 56px);
+}
+
+/* o trilho é a régua; a fita é o quanto dela já passou */
+.pr-trilho {
+  position: absolute;
+  left: 6px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background: var(--linha-esc);
+  overflow: hidden;
+}
+
+.pr-fita {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--laranja);
+  transform-origin: top center;
+  transform: scaleY(0);
+}
+
+.pr-passo {
+  position: relative;
+  padding: clamp(26px, 3.6vw, 46px) 0;
+  border-bottom: 1px solid var(--linha-esc);
+  cursor: default;
+  transition: opacity 0.45s var(--ease);
+  opacity: 0.42;
+}
+
+.pr-passo.ativo {
+  opacity: 1;
+}
+
+.pr-passo:first-child {
+  padding-top: clamp(12px, 2vw, 22px);
+}
+
+/* o marcador na régua: cresce e se pinta quando o passo acende */
+.pr-marca {
+  position: absolute;
+  left: calc(clamp(30px, 4vw, 56px) * -1 + 1px);
+  top: clamp(34px, 4.2vw, 54px);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--branco);
+  border: 2px solid var(--linha-esc);
+  transition: transform 0.4s var(--ease), background 0.4s var(--ease),
+    border-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+
+.pr-passo.ativo .pr-marca {
+  background: var(--laranja);
+  border-color: var(--laranja);
+  transform: scale(1.35);
+  box-shadow: 0 0 0 6px rgba(245, 124, 31, 0.16);
+}
+
+.pr-tc {
+  color: var(--tinta-esc-tenue);
+  transition: color 0.4s var(--ease);
+}
+
+.pr-passo.ativo .pr-tc {
+  color: var(--laranja-tipo);
+}
+
+.pr-nome {
+  margin-top: 8px;
+  font-size: clamp(1.6rem, 4vw, 3rem);
+  transition: transform 0.45s var(--ease);
+}
+
+.pr-passo.ativo .pr-nome {
+  transform: translateX(6px);
+}
+
+.pr-desc {
+  max-width: 58ch;
+  margin-top: 10px;
+  color: var(--tinta-esc-fraca);
+}
+
+@media (min-width: 700px) {
+  .pr-passo {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    column-gap: clamp(24px, 4vw, 60px);
+    align-items: start;
+  }
+
+  .pr-tc {
+    grid-row: 1;
+    padding-top: 10px;
+  }
+
+  .pr-nome {
+    grid-column: 2;
+    margin-top: 0;
+  }
+
+  .pr-desc {
+    grid-column: 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* sem movimento, a fita fica cheia e todos os passos legíveis */
+  .pr-fita {
+    transform: scaleY(1);
+  }
+
+  .pr-passo {
+    opacity: 1;
+  }
+}
+
+/* ============================================================
+   CELULAR
+
+   Um bloco só, no fim do arquivo, porque quase tudo aqui é correção de
+   escala e de espaço — e ler as correções juntas é o que mostra se o
+   ritmo da página sobrevive na tela estreita.
+
+   As regras de layout de cada seção continuam com a seção; aqui está o
+   que só o celular precisa.
+   ============================================================ */
+
+/* o botão da gaveta e a gaveta em si: só existem abaixo de 900px, e a
+   regra de desktop os esconde no fim deste arquivo */
+.nav-marca,
+.nav-hamburguer {
+  position: relative;
+  z-index: 1;
+}
+
+.nav-hamburguer {
+  display: grid;
+  gap: 5px;
+  padding: 10px 4px;
+  margin-left: auto;
+}
+
+.nav-hamburguer span {
+  display: block;
+  width: 26px;
+  height: 2px;
+  background: var(--tinta);
+  transition: transform 0.35s var(--ease), opacity 0.35s var(--ease);
+}
+
+.nav-aberto .nav-hamburguer span:first-child {
+  transform: translateY(3.5px) rotate(45deg);
+}
+
+.nav-aberto .nav-hamburguer span:last-child {
+  transform: translateY(-3.5px) rotate(-45deg);
+}
+
+.nav-gaveta[hidden] {
+  display: none;
+}
+
+/* A gaveta cobre a página inteira e fica ABAIXO da linha do menu, para
+   a logo e o botão de fechar continuarem clicáveis. O fundo é opaco e o
+   toque não vaza para a página de trás. */
+.nav-gaveta {
+  position: fixed;
+  inset: 0;
+  /* acima das seções (a capa está em 2) e abaixo da barra, que é 70 */
+  z-index: 65;
+  overscroll-behavior: contain;
+  touch-action: none;
+  display: grid;
+  align-content: center;
+  gap: 28px;
+  padding: calc(var(--topo) + 40px) var(--pad) 40px;
+  background: var(--preto);
+  animation: nav-abre 0.32s var(--ease);
+}
+
+@keyframes nav-abre {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+.nav-gaveta-links {
+  display: grid;
+  gap: 14px;
+}
+
+.nav-gaveta-links a {
+  font-size: clamp(2.2rem, 11vw, 3.4rem);
+  line-height: 1.02;
+  color: var(--tinta);
+}
+
+.nav-gaveta-links a:active {
+  color: var(--laranja-vivo);
+}
+
+.nav-gaveta-botao {
+  justify-self: start;
+}
+
+.nav-gaveta-pe {
+  color: var(--tinta-tenue);
+}
+
+@media (max-width: 899px) {
+  /* ---- ritmo geral ----
+     A barra do topo é mais baixa e o corpo desce um ponto: com 17px e
+     linha 1.55 o parágrafo em 360px de largura ficava com sete palavras
+     por linha, que lê como coluna de jornal. */
+  body {
+    font-size: 16px;
+  }
+
+  .nav {
+    height: 52px;
+  }
+
+  /* ---- a capa no retrato ----
+     Ela nasceu como duas metades lado a lado. Em pé não existe "lado":
+     o tecido vira fundo inteiro e o texto ANCORA EMBAIXO, que é onde a
+     mão alcança e onde o véu escurece. Centralizado, o bloco ficava
+     boiando no meio da tela com vazio em cima e embaixo. */
+  /* A capa deixa de ter altura de tela cheia: com o conteúdo ancorado
+     embaixo sobrava meia tela de tecido vazio em cima. Agora a altura é
+     a do conteúdo, e a capa termina onde o texto termina. */
+  .cp {
+    min-height: 0;
+  }
+
+  .cp-texto {
+    max-width: 100%;
+    padding: calc(var(--topo) + 26px) var(--pad) 18px;
+    align-content: start;
+    gap: 0;
+  }
+
+  .cp-texto > * + * {
+    margin-top: 0.85rem;
+  }
+
+  /* o véu vira vertical: escuro embaixo, onde o texto está, e limpo em
+     cima, onde o tecido aparece */
+  .cn-veu {
+    background: linear-gradient(
+      to top,
+      rgba(10, 10, 10, 0.95) 0%,
+      rgba(10, 10, 10, 0.86) 34%,
+      rgba(10, 10, 10, 0.45) 68%,
+      rgba(10, 10, 10, 0.22) 100%
+    );
+  }
+
+  .cp-rot {
+    font-size: 10px;
+  }
+
+  .cp-h1 {
+    font-size: clamp(2.1rem, 11vw, 3.6rem);
+  }
+
+  .cp-sub {
+    max-width: 44ch;
+  }
+
+  .cp-acoes {
+    width: 100%;
+    margin-top: 22px !important;
+  }
+
+  .cp-acoes .botao {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+
+  /* Em pé a chamada sai do canto e entra na FILA: como elemento solto
+     no rodapé ela obrigava a capa a reservar quase cem pixels de vazio
+     embaixo só para não encostar nos botões. */
+  .cp-role {
+    position: static;
+    translate: none;
+    margin: 0 auto 26px;
+    gap: 6px;
+  }
+
+  .cp-role i {
+    height: 22px;
+  }
+
+  /* ---- quem é ---- */
+  .mf-corpo {
+    gap: 34px;
+  }
+
+  .mf-retrato {
+    max-width: 380px;
+  }
+
+  /* Os números de peças e vídeos são contexto de desktop: no celular
+     eles empurram o texto para longe e ninguém desce até ali por causa
+     deles. Fica o retrato e o que está escrito. */
+  .mf-fatos {
+    display: none;
+  }
+
+  .mf-faixa {
+    padding-top: 20px;
+  }
+
+  /* ---- o que eu faço ----
+     A trilha acesa pela rolagem usa exatamente os estados do hover: a
+     cortina laranja sobe, o tipo vira preto e a linha respira. */
+  .trilha-linha {
+    gap: 8px;
+  }
+
+  .trilha.acesa::before {
+    transform: scaleY(1);
+  }
+
+  .trilha.acesa .trilha-linha {
+    padding-inline: clamp(14px, 2.6vw, 40px);
+  }
+
+  .trilha.acesa .trilha-num,
+  .trilha.acesa .trilha-nome {
+    color: var(--preto);
+  }
+
+  .trilha.acesa .trilha-desc {
+    color: rgba(10, 10, 10, 0.86);
+  }
+
+  .trilha.acesa .trilha-tags span {
+    border-color: rgba(10, 10, 10, 0.4);
+    color: var(--preto);
+  }
+
+  /* ---- vitrine ---- */
+  .bento-card {
+    min-height: 260px;
+  }
+
+  /* ---- falar comigo ---- */
+  .contato-fundo {
+    width: 92vw;
+    left: -4vw;
+    bottom: -2vw;
+  }
+
+  .contato-acoes {
+    display: grid;
+    gap: 10px;
+  }
+
+  .contato-acoes .botao {
+    justify-content: center;
+  }
+
+  /* ---- página de projeto ---- */
+  .pj-capa {
+    min-height: 78svh;
+    padding-bottom: 30px;
+  }
+
+  .pj-titulo {
+    font-size: clamp(2.2rem, 12vw, 3.6rem);
+  }
+
+  .pj-resumo {
+    max-width: none;
+    font-size: 1.15rem;
+  }
+
+  .pj-numeros {
+    gap: 22px;
+  }
+
+  .pj-pecas {
+    gap: 22px;
+  }
+
+  /* a porta do próximo vira coluna: seta embaixo do nome, não espremida
+     ao lado dele */
+  .pj-proximo {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    min-height: 0;
+  }
+
+  .pj-proximo-nome {
+    font-size: clamp(1.9rem, 10vw, 3rem);
+  }
+
+  .pj-fim .capa-acoes {
+    display: grid;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .pj-fim .capa-acoes .botao {
+    justify-content: center;
+  }
+
+  /* ---- o player ----
+     A barra inteira não cabe em 360px: o botão de som sai e o timecode
+     de duração também, sobrando o que se usa — tocar, posição e régua. */
+  .vd-barra {
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .vd-tc-fim,
+  .vd-regua-som {
+    display: none;
+  }
+
+  .vd-tocar {
+    width: 52px;
+  }
+}
+
+/* telas bem estreitas: o que ainda estoura em 360px */
+@media (max-width: 400px) {
+  .nav-botao {
+    display: none;
+  }
+
+  .pj-peca figcaption span:last-child {
+    display: none;
+  }
+}
+
+@media (min-width: 900px) {
+  /* no desktop a gaveta não existe: a navegação volta a ser a barra */
+  .nav-hamburguer,
+  .nav-gaveta {
+    display: none !important;
+  }
 }
