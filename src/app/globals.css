@@ -1230,37 +1230,147 @@ ol {
   user-select: none;
 }
 
-/* ---------- rodapé ---------- */
+/* ---------- rodapé ----------
+
+   Duas alturas: em cima a marca com a frase e as colunas de link, em
+   baixo uma linha fina de ano e crédito. O laranja aparece só no
+   sublinhado que nasce no hover e no botão — o rodapé é o descanso
+   depois do bloco laranja cheio do contato. */
 
 .rodape {
-  display: grid;
-  gap: 30px;
-  padding: 48px var(--pad) 74px;
+  padding: 84px var(--pad) 34px;
   background: var(--preto);
   border-top: 1px solid var(--linha);
 }
 
-.rodape-linha {
+.rodape-topo {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 56px 40px;
+  padding-bottom: 56px;
+}
+
+.rodape-marca {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 22px;
+  max-width: 44ch;
+}
+
+.rodape-frase {
+  font-size: clamp(20px, 2.2vw, 30px);
+  line-height: 1.22;
+  letter-spacing: -0.015em;
+  color: var(--tinta);
+}
+
+.rodape-botao {
+  margin-top: 4px;
+}
+
+.rodape-titulo {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tinta-tenue);
+  margin-bottom: 20px;
+}
+
+.rodape-lista {
+  display: grid;
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.rodape-lista a {
+  position: relative;
+  display: inline-block;
+  font-size: 15px;
+  color: var(--tinta-fraca);
+  transition: color 0.25s var(--ease);
+}
+
+/* o sublinhado cresce da esquerda: o mesmo gesto do menu do topo, para
+   o rodapé não parecer de outro site */
+.rodape-lista a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 100%;
+  height: 1px;
+  background: var(--laranja);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.32s var(--ease);
+}
+
+.rodape-lista a:hover {
+  color: var(--tinta);
+}
+
+.rodape-lista a:hover::after {
+  transform: scaleX(1);
+}
+
+.rodape-base {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 18px;
-}
-
-.rodape-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  color: var(--tinta-fraca);
-}
-
-.rodape-links a:hover {
-  color: var(--laranja-vivo);
+  gap: 12px 24px;
+  padding-top: 26px;
+  border-top: 1px solid var(--linha);
 }
 
 .rodape-nota {
+  font-size: 12px;
+  letter-spacing: 0.04em;
   color: var(--tinta-tenue);
+}
+
+.rodape-credito {
+  color: var(--tinta-fraca);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color 0.25s var(--ease);
+}
+
+.rodape-credito:hover {
+  color: var(--laranja-vivo);
+  text-decoration-color: var(--laranja-vivo);
+}
+
+@media (max-width: 900px) {
+  .rodape-topo {
+    grid-template-columns: 1fr 1fr;
+    gap: 44px 24px;
+  }
+
+  .rodape-marca {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 520px) {
+  .rodape {
+    padding-top: 58px;
+  }
+
+  .rodape-topo {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .rodape-base {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
 }
 
 /* ---------- reveals ----------
