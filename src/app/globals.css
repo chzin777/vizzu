@@ -2875,42 +2875,71 @@ html.travado {
   overscroll-behavior: contain;
   touch-action: none;
   display: grid;
-  align-content: center;
-  gap: 28px;
-  padding: calc(var(--topo) + 40px) var(--pad) 40px;
+  grid-template-rows: 1fr auto;
+  padding: calc(var(--topo) + 12px) var(--pad) 26px;
   background: var(--preto);
-  animation: nav-abre 0.32s var(--ease);
+  animation: nav-abre 0.28s var(--ease);
 }
 
 @keyframes nav-abre {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-8px);
   }
 }
 
+/* a lista ocupa o alto, colada na barra: menu é índice, não manchete */
 .nav-gaveta-links {
+  align-self: start;
   display: grid;
-  gap: 14px;
+  border-top: 1px solid var(--linha);
 }
 
 .nav-gaveta-links a {
-  font-size: clamp(2.2rem, 11vw, 3.4rem);
-  line-height: 1.02;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 2px;
+  border-bottom: 1px solid var(--linha);
   color: var(--tinta);
 }
 
-.nav-gaveta-links a:active {
+.nav-gaveta-num {
   color: var(--laranja-vivo);
 }
 
+.nav-gaveta-nome {
+  font-size: 1.32rem;
+  line-height: 1.1;
+}
+
+.nav-gaveta-seta {
+  color: var(--tinta-tenue);
+  font-size: 1rem;
+}
+
+.nav-gaveta-links a:active {
+  padding-inline: 8px 2px;
+  color: var(--laranja-vivo);
+}
+
+.nav-gaveta-links a:active .nav-gaveta-seta {
+  color: var(--laranja-vivo);
+}
+
+/* o pé da gaveta: chamada e assinatura, separados da lista */
 .nav-gaveta-botao {
-  justify-self: start;
+  justify-self: stretch;
+  justify-content: center;
+  margin-bottom: 14px;
 }
 
 .nav-gaveta-pe {
   color: var(--tinta-tenue);
+  text-align: center;
 }
+
 
 @media (max-width: 899px) {
   /* ---- ritmo geral ----

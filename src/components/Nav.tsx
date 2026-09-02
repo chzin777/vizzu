@@ -169,19 +169,27 @@ export default function Nav() {
           para filho `position: fixed` — dentro dela, a gaveta virava uma
           tira de 58px colada no topo e a página aparecia por baixo. */}
     <div className="nav-gaveta" id="nav-gaveta" hidden={!aberto}>
+      {/* Uma LISTA, não um cartaz: cada seção é uma linha com número,
+          nome e seta, separada por fio. Empilhado em texto grande no
+          meio da tela, o menu lia como mais uma seção do site. */}
       <nav className="nav-gaveta-links" aria-label="Seções">
-        {LINKS.map((l) => (
+        {LINKS.map((l, i) => (
           <Link
             key={l.href}
             href={l.href}
-            className="display"
             onClick={(e) => {
               setAberto(false);
               if (caminho === "/") return;
               irCom(e, l.href, "#f57c1f");
             }}
           >
-            {l.texto}
+            <span className="mono nav-gaveta-num">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <span className="nav-gaveta-nome">{l.texto}</span>
+            <span className="nav-gaveta-seta" aria-hidden="true">
+              →
+            </span>
           </Link>
         ))}
       </nav>
