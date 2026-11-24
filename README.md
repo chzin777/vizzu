@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vizzu — Portfólio audiovisual
 
-## Getting Started
+Site-portfólio da **Vizzu** (Noah Lima Queiroz): vitrine de trabalhos em vídeo, página individual por projeto e contato direto pelo WhatsApp.
 
-First, run the development server:
+**Produção:** https://vizzu-xi.vercel.app
+
+## Stack
+
+- [Next.js 16](https://nextjs.org) (App Router) + React 19 + TypeScript
+- Tailwind CSS 4
+- GSAP + Lenis (animações e rolagem suave)
+- Three.js / `@react-three/fiber` (fundos animados: `Silk`, `InfiniteSpiral`)
+
+## Como rodar
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build
+npm run start
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Sem variáveis de ambiente — o site é estático.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Estrutura
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+  app/
+    page.tsx                 home (abertura, manifesto, trabalhos, processo, serviços, contato)
+    trabalho/[slug]/page.tsx página de cada projeto do portfólio
+    sitemap.ts, robots.ts    SEO
+    llms.txt/route.ts        resumo do site para buscadores de IA
+  components/                seções e efeitos visuais
+  dados.ts                   marca, contatos, textos e mensagem padrão do WhatsApp
+  portfolio.json             lista de trabalhos (título, slug, vídeos, capa)
+  temas.ts                   paletas por projeto
+scripts/
+  baixar-portfolio.mjs       baixa mídias do portfólio para /public
+  recortar-logo.mjs          gera recortes do logo
+```
 
-## Learn More
+## Editando o conteúdo
 
-To learn more about Next.js, take a look at the following resources:
+- **Dados da marca e contato:** `src/dados.ts`
+- **Projetos do portfólio:** `src/portfolio.json` (cada item vira uma rota `/trabalho/<slug>`)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deploy
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Vercel (configuração em `vercel.json`); cada push na `main` publica automaticamente.
